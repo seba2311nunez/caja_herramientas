@@ -1,0 +1,412 @@
+<HTML>
+    <head>
+    	
+    	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	    <!-- Meta, title, CSS, favicons, etc. -->
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	    <title>Caja de herramientas</title>
+	
+	    <!-- Bootstrap -->
+	    <!-- <link href="http://54.225.110.0/dashboard_sistema/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	    
+	    <link href="http://54.225.110.0/dashboard_sistema/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+	    <!-- bootstrap-progressbar -->
+	    <link href="http://54.225.110.0/dashboard_sistema/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+	    
+	    <!--Tabla responsive -->
+	    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
+	    	    
+	    <!-- Grafico nuevo GOOGLE -->
+	    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>		
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.min.js"></script>		
+	    <link rel="stylesheet" href="http://54.225.110.0/dashboard_sistema/vendors/morris.js/morris.css">
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/morris.js/morris.min.js"></script>
+	  	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.min.css">
+	  	
+        <style>
+        	body{
+        		background-color: #F7F7F7;
+        	}
+        	.x_panel{
+        		
+			    width: 100%;			    
+			    padding: 10px 17px;
+			    display: inline-block;
+			    background: #fff;
+			    border: 1px solid #E6E9ED;
+			    margin-left: 10px;
+			    margin-top: 10px;
+			    margin-bottom: 10px;
+			    
+        	}        	
+        </style>
+    </head>
+    <BODY>    	
+        <div class="container-fluid main">   
+		    
+	    	
+	    	
+	    	
+	    	<div class="row col-md-12 col-lg-12">
+	    		<div class="col-md-12 col-lg-12">
+	    			<div class="x_panel">
+	    				<h4><i class="fas fa-chart-bar"></i> Medicos que atienden en &nbsp;<small id="sm_ocupacion_os"></small></h4>
+	    				<div class="pull-left">
+	    					<input id="inp_fecha_atencion_medicos" type="date" class="form-control" style="border-color: cornflowerblue;"  />    					
+	    				</div>
+	    				<br>
+	    				<table id="tabMedicosAtienden" class="table" style="font-size: 12px;">
+	    					<thead>
+	    						<tr class="">
+			            			<th style='background-color: white;' colspan='4'></th>
+			            			<th style='text-align: center; background-color: #fcf8e3;' colspan='2'>Turnos disponibles</th>
+			            			<th style='text-align: center; background-color: #fcf8e3;' colspan='2'>Asignados por obra social</th>
+			            			<th style='background-color: white;'></th>
+			            			<th style='text-align: center; background-color: #fcf8e3;' colspan='2'>Bloqueos</th>
+			            		</tr>
+	    						<tr class="info">
+	    							<td>#</td>
+	    							<td>Especialidad</td>
+	    							<td>Medico</td>
+	    							<td>Horario</td>
+	    							<td>Normales</td>
+	    							<td>Sobreturnos</td>
+	    							<td>PPLAN</td>
+	    							<td>Obra sociales</td>
+	    							<td style='text-align: center;'>Total asignados</td>
+	    							<td style='text-align: center;'>Agenda bloqueda</td>
+	    							<td style='text-align: center;'>Receso</td>
+	    						</tr>
+	    					</thead>
+	    					<tbody>	    						
+	    					</tbody>
+	    				</table>  
+	    			</div>	
+	    		</div>
+	    		
+	    	</div>	    
+	        
+	    	
+	    	<div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	    		
+	    		
+          	</div>          	    	
+    	</div>
+    	
+    	
+    	<!-- jQuery -->
+	    <!-- <script src="http://54.225.110.0/dashboard_sistema/vendors/jquery/dist/jquery.min.js"></script> -->
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>    	
+    	<script>    	
+    		$(function(){
+
+    			$('[data-toggle="tooltip"]').tooltip(); 
+    			
+    			var datos = {
+				 	"parametro": "q_observadas"
+				};
+								
+				$.ajax({
+				
+					url: 'http://54.225.110.0/php-bin/ws/ws_autorizaciones.php',
+					type: 'get',
+					data: datos,
+					success: function(data){	
+											
+						$('#lbl_q_observadas').html(data);
+					}
+				})
+				
+				$('#autorizaciones_periodo').html("<div style='padding-top: 80px;padding-left: 400px;padding-bottom: 50px;'><i class='fa fa-spinner fa-pulse fa-3x fa-fw'></i><span class='sr-only'>Cargando...</span></div>");
+		    
+				var datos = { "parametro": "autorizaciones_periodo" };
+			       				
+				jQuery.ajax({	
+						data: datos,
+						url: "http://54.225.110.0/php-bin/ws/ws_autorizaciones.php",
+						type:"GET",
+						success: function(data){
+																	
+							$('#autorizaciones_periodo').html(data);
+						}
+				});
+				
+				/*$.getJSON('http://54.225.110.0/php-bin/ws/ws_periodos.php',
+			   				{ parametro: "periodo_desde_hasta_parametro", "p_mes": 3 },						       				
+			   				function(data){ 
+			   					
+			   					$('#inp_auto_fecha_desde').val(data[0]['primer_dia']);
+			   					
+			   				}//fin function data
+			   	
+			   	);//fin getjson
+			   	*/
+				
+				setTimeout(function(){ 
+					
+					$.getJSON('http://54.225.110.0/php-bin/ws/ws_autorizaciones.php',
+				   				{ parametro: "pendientes_por_periodo", "fecha_desde": $('#inp_auto_fecha_desde').val(), "fecha_hasta": $('#inp_auto_fecha_hasta').val() , "id_institucion": "<?=$id_institucion;?>" },						       				
+				   				function(data){ 
+				   					
+				   					console.log(data);
+				   					$('#lbl_q_observadas').html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
+				   					$('#lbl_q_observadas').html(data[0]['total'])
+				   					
+				   				}//fin function data
+				   	
+				   	);//fin getjson
+				   	
+				   	$.getJSON('http://54.225.110.0/php-bin/ws/ws_autorizaciones.php',
+				   				{ parametro: "pendientes_entrega_por_periodo", "fecha_desde": $('#inp_auto_fecha_desde').val(), "fecha_hasta": $('#inp_auto_fecha_hasta').val() , "id_institucion": "<?=$id_institucion;?>" },						       				
+				   				function(data){ 
+				   					
+				   					console.log(data);
+				   					$('#lbl_q_pendientes_entrega').html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
+				   					$('#lbl_q_pendientes_entrega').html(data[0]['total'])
+				   					
+				   				}//fin function data
+				   	
+				   	);//fin getjson
+				   	
+				   	$.getJSON('http://54.225.110.0/php-bin/ws/ws_autorizaciones.php',
+				   				{ parametro: "ordenes_no_autorizadas", "fecha_desde": $('#inp_auto_fecha_desde').val(), "fecha_hasta": $('#inp_auto_fecha_hasta').val() , "id_institucion": "<?=$id_institucion;?>" },						       				
+				   				function(data){ 
+				   					
+				   					console.log(data);
+				   					$('#lbl_q_no_autorizadas').html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
+				   					$('#lbl_q_no_autorizadas').html(data[0]['total'])
+				   					
+				   					if(data[0]['total']*1 > 0){
+								   		console.log('alerta');
+								   		$('#divNoAutorizadas').fadeIn(600).delay(500).fadeOut(600, parpadear);
+								   	}else{
+								   		$('#divNoAutorizadas').fadeIn(600);
+								   	}
+				   					
+				   				}//fin function data
+				   	
+				   	);//fin getjson
+				   	
+				
+				}, 2000);
+								
+				$('#btnListarAutorizaciones').on('click',function(){
+					
+					$.getJSON('http://54.225.110.0/php-bin/ws/ws_autorizaciones.php',
+				   				{ parametro: "pendientes_por_periodo", "fecha_desde": $('#inp_auto_fecha_desde').val(), "fecha_hasta": $('#inp_auto_fecha_hasta').val() , "id_institucion": "<?=$id_institucion;?>" },						       				
+				   				function(data){ 
+				   					
+				   					console.log(data);
+				   					$('#lbl_q_observadas').html(data[0]['total'])
+				   					
+				   				}//fin function data
+				   	
+				   	);//fin getjson
+				   	
+				   	$.getJSON('http://54.225.110.0/php-bin/ws/ws_autorizaciones.php',
+				   				{ parametro: "pendientes_entrega_por_periodo", "fecha_desde": $('#inp_auto_fecha_desde').val(), "fecha_hasta": $('#inp_auto_fecha_hasta').val() , "id_institucion": "<?=$id_institucion;?>" },						       				
+				   				function(data){ 
+				   					
+				   					console.log(data);
+				   					$('#lbl_q_pendientes_entrega').html(data[0]['total'])
+				   					
+				   				}//fin function data
+				   	
+				   	);//fin getjson
+				   	
+				   	$.getJSON('http://54.225.110.0/php-bin/ws/ws_autorizaciones.php',
+				   				{ parametro: "ordenes_no_autorizadas", "fecha_desde": $('#inp_auto_fecha_desde').val(), "fecha_hasta": $('#inp_auto_fecha_hasta').val() , "id_institucion": "<?=$id_institucion;?>" },						       				
+				   				function(data){ 
+				   					
+				   					console.log(data);
+				   					$('#lbl_q_no_autorizadas').html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
+				   					$('#lbl_q_no_autorizadas').html(data[0]['total'])
+				   					
+				   					if(data[0]['total']*1 > 0){
+								   		console.log('alerta');
+								   		$('#divNoAutorizadas').fadeIn(600).delay(500).fadeOut(600, parpadear);
+								   	}else{
+								   		$('#divNoAutorizadas').fadeIn(600);
+								   	}
+				   					
+				   				}//fin function data
+				   	
+				   	);//fin getjson
+					
+				})
+				
+				$('#lbl_q_observadas').on('click',function(){
+					
+					window.open('../APP/pplan/autorizaciones_pendiente_autorizar.php?fecha_desde='+$('#inp_auto_fecha_desde').val()+'&fecha_hasta='+$('#inp_auto_fecha_hasta').val(), '_blank');
+				})
+				
+				$('#lbl_q_pendientes_entrega').on('click',function(){
+					
+					window.open('../APP/pplan/autorizaciones_pendiente_entrega.php?fecha_desde='+$('#inp_auto_fecha_desde').val()+'&fecha_hasta='+$('#inp_auto_fecha_hasta').val(), '_blank');
+				})
+				
+				$('#lbl_q_no_autorizadas').on('click',function(){
+					
+					window.open('../APP/pplan/ordenes_no_autorizadas.php?fecha_desde='+$('#inp_auto_fecha_desde').val()+'&fecha_hasta='+$('#inp_auto_fecha_hasta').val(), '_blank');
+				})
+				
+				$("#tabMedicosAtienden tbody").html("&nbsp;&nbsp;&nbsp;<i class='fa fa-spinner fa-pulse fa-x fa-fw'></i>");
+					
+				$.getJSON('http://54.225.110.0/php-bin/ws/ws_turnos.php',
+			   				{ parametro: "medicos_atienden_hoy", "fecha": "<?=date('Y-m-d');?>" , "id_institucion": "<?=$id_institucion;?>" },						       				
+			   				function(data){ 
+			   					
+			   					$("#tabMedicosAtienden tbody").html(""); 
+			   					
+			   					var bloqueado, bg_fila, font_c, receso, index ;
+			   					
+			   					for(var i=0; i<=data.length ;i++){
+			   						
+			   						index=i+1;
+			   						
+			   						if(data[i]['bloqueado']*1>0){
+			   							bloqueado='SI';
+			   							bg_fila="red";
+			   							font_c="color: white;";
+			   						}else{
+			   							bloqueado='NO';
+			   							bg_fila='FFFFFF';
+			   							font_c="color: black;";
+			   						}
+			   						
+			   						if(data[i]['receso']*1>0){
+			   							receso='SI';
+			   						}else{
+			   							receso='NO'
+			   						}
+			   						
+			   						$("#tabMedicosAtienden tbody").append("<tr = style='background-color: "+bg_fila+"; "+font_c+" '>"
+			   																	+"<td>"+index+"</td>"
+															      				+"<td>"+data[i]['especialidad']+"</td>"
+															      				+"<td>"+data[i]['medico']+"</td>"
+															      				+"<td>"+data[i]['horario']+"</td>"
+																      			+"<td style='text-align: right;'>"+data[i]['normales']+"</td>"
+																      			+"<td style='text-align: right;'>"+data[i]['sobre']+"</td>"
+																      			+"<td style='text-align: right;'>"+data[i]['q_pplan']+"</td>"
+																      			+"<td style='text-align: right;'><a href='#' data-toggle='tooltip' title='&nbsp; "+data[i]['q_x_os']+"'>"+data[i]['q_os']+"</a></td>"
+																      			+"<td style='text-align: right;'><a href='../APP/listados/imprimir_turnos.php?fecha="+$('#inp_fecha_atencion_medicos').val()+"&medico="+data[i]['cod']+"&p_institucion="+<?=$id_institucion;?>+"' title='Ver listado turnos de una fecha' target='_NEW'>"+data[i]['cantidad']+"</a></td>"													      			      	
+																      			+"<td style='text-align: center;'>"+bloqueado+"</td>"
+																      			+"<td style='text-align: center;'>"+receso+"</td>"																      				
+																    		+"</tr>") ;		    		
+			   						
+			   						index++;
+			   						
+			   					}//fin for
+			   					
+			   				}//fin function data
+			   	
+			   	);//fin getjson
+				
+				
+							     	
+			   	/*REFERIDOS*/
+			   	$("#q_referidos").html("<i class='fa fa-spinner fa-pulse fa-x fa-fw'></i>");
+				     	
+			   	$.getJSON('http://54.225.110.0/php-bin/ws/ws_ini_callcenter.php',
+			   				{ parametro: "q_referidos" },						       				
+			   				function(data){ 
+			   					
+			   					$("#q_referidos").html("");
+			   					$("#q_referidos").html("<a href='../APP/pplan/referidos.php?boton=Listar' style='color: white;'>"+data[0]['q_referidos']+"</a>");
+			   					
+			   				}
+			   	
+			   	); 
+				
+				$("#referidos tbody").html("&nbsp;&nbsp;&nbsp;<i class='fa fa-spinner fa-pulse fa-x fa-fw'></i>");
+							     	
+			   	$.getJSON('http://54.225.110.0/php-bin/ws/ws_ini_callcenter.php',
+			   				{ parametro: "referidos" },						       				
+			   				function(data){ 
+			   					
+			   					$("#referidos tbody").html("");
+			   					
+			   					for(var i=0; i<=data.length ;i++){
+			   						
+			   						$("#referidos tbody").append("<tr  = style='background-color: #FFFFFF;'>"
+															      				+"<td>"+data[i]['periodo']+"</td>"
+															      				+"<td>"+data[i]['total']+"</td>"
+																      			+"<td>"+data[i]['vistos']+"</td>"
+																      			+"<td>"+data[i]['preventa']+"</td>"
+																      			+"<td>"+data[i]['opciones']+"</td>"							      				
+																    		+"</tr>") ;
+									
+			   					}
+			   					
+			   					// $("#ac_sist").css('overflow-y','scroll');
+								// $("#ac_sist").css('height','400px');
+								$("#referidos").css('font-size','13px');
+			   					
+			   				}
+			   	
+			   	); 
+				
+				$('#cerrar_sesion').on('click',function(){
+					alert('hola');
+				})
+    			
+    		})
+    		
+    		function parpadear(){ $('#divNoAutorizadas').fadeIn(600).delay(500).fadeOut(600, parpadear)  }
+    		
+    	</script>
+    	
+    	
+	    <!-- Bootstrap -->
+	    <!-- <script src="http://54.225.110.0/dashboard_sistema/vendors/bootstrap/dist/js/bootstrap.min.js"></script> -->
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	    <!-- FastClick -->
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/fastclick/lib/fastclick.js"></script>
+	    <!-- NProgress -->
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/nprogress/nprogress.js"></script>
+	    <!-- Chart.js -->
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/Chart.js/dist/Chart.min.js"></script>
+	    <!-- gauge.js -->
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/gauge.js/dist/gauge.min.js"></script>
+	    <!-- bootstrap-progressbar -->
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+	    <!-- iCheck -->
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/iCheck/icheck.min.js"></script>
+	    <!-- Skycons -->
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/skycons/skycons.js"></script>
+	    <!-- Flot -->
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/Flot/jquery.flot.js"></script>
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/Flot/jquery.flot.pie.js"></script>
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/Flot/jquery.flot.time.js"></script>
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/Flot/jquery.flot.stack.js"></script>
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/Flot/jquery.flot.resize.js"></script>
+	    <!-- Flot plugins -->
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/flot.curvedlines/curvedLines.js"></script>
+	    <!-- DateJS -->
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/DateJS/build/date.js"></script>
+	    <!-- JQVMap -->
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/jqvmap/dist/jquery.vmap.js"></script>
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+	    <!-- bootstrap-daterangepicker -->
+	    <script src="http://54.225.110.0/dashboard_sistema/vendors/moment/min/moment.min.js"></script>
+	    
+	
+	    <!-- Custom Theme Scripts -->
+	    <script src="http://54.225.110.0/dashboard_sistema/build/js/custom.min.js"></script>
+		
+		<script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+		<script src="https://cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap.min.js"></script>
+    	
+    	<script src='https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js'></script>
+		<script src='https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js'></script> 
+    </BODY>
+</HTML>
