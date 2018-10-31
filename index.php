@@ -1,3 +1,6 @@
+<?php 
+header('Access-Control-Allow-Origin: *');
+?>
 <HTML>
     <head>
     	
@@ -99,7 +102,11 @@
 			  left: initial;
 			  font-size: 14px;
 			}
-        	
+        	.jumbotron{
+        		background-color: #337ab7b3;
+			    color: #fff;
+			    box-shadow: 7px 8px 4px 0px black;
+        	}
         </style>
     </head>
     <BODY>    	
