@@ -41,81 +41,15 @@ header('Access-Control-Allow-Origin: *');
 		<script src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js"></script>
 		<script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
 	  	
+	  	<link href="http://54.225.110.0/framework/bootstrap/css/estilo_estandar.css" rel="stylesheet">
+	  	<link href="http://54.225.110.0/dashboard_sistema/build/css/custom.min.css" rel="stylesheet">
+	  	
         <style>
-        	body{
-        		background-color: #F7F7F7;
-        	}
-        	.x_panel{
-        		
-			    width: 100%;			    
-			    padding: 10px 17px;
-			    display: inline-block;
-			    background: #fff;
-			    border: 1px solid #E6E9ED;
-			    margin-left: 10px;
-			    margin-top: 10px;
-			    margin-bottom: 10px;
-			    
-        	}
         	#tabMedicosAtienden thead tr th{
         		text-align: center;
         	}
         	
-        	.search-form .form-group {
-			  float: right !important;
-			  transition: all 0.35s, border-radius 0s;
-			  width: 32px;
-			  height: 32px;
-			  background-color: #fff;
-			  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-			  border-radius: 25px;
-			  border: 1px solid #ccc;
-			}
-			.search-form .form-group input.form-control {
-			  padding-right: 20px;
-			  border: 0 none;
-			  background: transparent;
-			  box-shadow: none;
-			  display:block;
-			}
-			.search-form .form-group input.form-control::-webkit-input-placeholder {
-			  display: none;
-			}
-			.search-form .form-group input.form-control:-moz-placeholder {
-			  /* Firefox 18- */
-			  display: none;
-			}
-			.search-form .form-group input.form-control::-moz-placeholder {
-			  /* Firefox 19+ */
-			  display: none;
-			}
-			.search-form .form-group input.form-control:-ms-input-placeholder {
-			  display: none;
-			}
-			.search-form .form-group:hover,
-			.search-form .form-group.hover {
-			  width: 100%;
-			  border-radius: 4px 25px 25px 4px;
-			}
-			.search-form .form-group span.form-control-feedback {
-			  position: absolute;
-			  top: -1px;
-			  right: -2px;
-			  z-index: 2;
-			  display: block;
-			  width: 34px;
-			  height: 34px;
-			  line-height: 34px;
-			  text-align: center;
-			  color: #3596e0;
-			  left: initial;
-			  font-size: 14px;
-			}
-        	.jumbotron{
-        		background-color: #337ab7b3;
-			    color: #fff;
-			    box-shadow: 7px 8px 4px 0px black;
-        	}
+        	
         </style>
     </head>
     <BODY>    	
