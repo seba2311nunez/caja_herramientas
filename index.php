@@ -32,6 +32,12 @@ header('Access-Control-Allow-Origin: *');
 	    <script src="http://54.225.110.0/dashboard_sistema/vendors/morris.js/morris.min.js"></script>
 	  	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.min.css">
 	  	
+	  	<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css" />		
+		<link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
+		
+		<script src="https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js"></script>
+		<script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+	  	
         <style>
         	body{
         		background-color: #F7F7F7;
@@ -119,15 +125,15 @@ header('Access-Control-Allow-Origin: *');
 	    					<h1>Caja de herramientas</h1>
 	    				</div>
 	    				<div>
-	    					<div class="col-md-4 col-md-offset-3">
+	    					<!--<div class="col-md-4 col-md-offset-3">
 					            <form action="" class="search-form">
 					                <div class="form-group has-feedback">
 					            		<label for="search" class="sr-only">Buscar</label>
-					            		<input type="text" class="form-control" name="search" id="search" placeholder="Buscar">
+					            		<input type="text" class="form-control" name="search" id="search" placeholder="Buscar"> 
 					              		<span class="glyphicon glyphicon-search form-control-feedback"></span>
 					            	</div>					            	
 					            </form>					            
-					        </div>					        
+					        </div>	-->				        
 	    				</div>
 	    				<div>
 	    					<a id="btnBuscar" class="btn btn-success"><i class="fas fa-angle-double-right"></i></a>
@@ -136,15 +142,15 @@ header('Access-Control-Allow-Origin: *');
 	    					<input id="inp_fecha_atencion_medicos" type="date" class="form-control" style="border-color: cornflowerblue;"  />    					
 	    				</div>
 	    				<br>
-	    				<table id="tabHerramientas" class="table" style="font-size: 12px; ">
+	    				<table id="tabHerramientas" class="table table-striped table-bordered  nowrap" style="font-size: 12px; ">
 	    					<thead>
 	    						<tr class="success">
 			            			<th>#</th>
 			            			<th>Nombre</th>
 			            			<th>Creador</th>
-			            			<th>Descripcion</th>
-			            			<th>Contenido</th>
-			            			<th>Fecha</th>			            			
+			            			<th></th>
+			            			<th>Descripcion</th>			            			
+			            			<th>Fecha</th>			            								            			
 			            		</tr>	    						
 	    					</thead>
 	    					<tbody>	    						
@@ -165,7 +171,9 @@ header('Access-Control-Allow-Origin: *');
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>    	
     	<script>    	
     		$(function(){
-
+				
+				
+				
     			$('[data-toggle="tooltip"]').tooltip(); 
     			
     			$('#search').on('blur',function(){
@@ -201,14 +209,40 @@ header('Access-Control-Allow-Origin: *');
 		   																	+"<td>"+index+"</td>"
 														      				+"<td>"+data[i]['nombre']+"</td>"
 														      				+"<td>"+data[i]['creador']+"</td>"
-														      				+"<td>"+data[i]['descripcion']+"</td>"
-														      				+"<td>"+data[i]['contenido']+"</td>"
-														      				+"<td>"+data[i]['fechador']+"</td>"																      																	      				
+														      				+"<td>"
+														      					+"<div class='btn-group btn-group-default' >"						                    
+																					+"<button style='margin-left: 20%; margin-right: auto;' data-toggle='dropdown' class='btn btn-default dropdown-toggle' style='height: 34px;' type='button'>"
+																						+"<i class='fa fa-ellipsis-v' aria-hidden='true'></i>"
+																					+"</button>"
+																					+"<ul class='dropdown-menu'>"
+																						 +"<li>"
+																							+"<a href='ver_info.php?id_contenido="+data[i]['id']+"' target='NEW'>"						                     		
+																								+"Ver contenido formateado"
+																							+"</a>"						                     	
+																						 +"</li>"													                     		 
+																					+"</ul>"
+																				+"</div>"
+																			+"</td>"
+														      				+"<td>"+data[i]['descripcion']+"</td>"														      				
+														      				+"<td>"+data[i]['fechador']+"</td>"						      																	      				
 															    		+"</tr>") ;		    		
 			   						
 			   						index++;
 			   						
 			   					}//fin for
+			   					
+			   					$('#tabHerramientas').DataTable({
+							   		"searching": false,
+							   		"bPaginate": false,
+								    "bLengthChange": false,
+								    "bFilter": true,
+								    "bInfo": false,
+								    "bAutoWidth": false,
+							        fixedHeader: {
+							            header: true
+							        }
+							        
+							    });
 			   					
 			   				}//fin function data
 			   	

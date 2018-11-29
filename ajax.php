@@ -30,6 +30,29 @@ switch ($parametro) {
 			
 			
 		break;
+		
+	case 'mostrar_un_contenido':
+			
+			$sql="SELECT id, nombre, creador, descripcion, contenido, DATE_FORMAT(fechador,'%d-%m-%Y %H:%i') AS fechador 
+					FROM herramientas 
+						WHERE id=$id_contenido ";							
+			
+			$result=mysql_query($sql) or die(mysql_error()."<br>".$sql);
+			
+			while ($row = mysql_fetch_assoc($result)) {
+				
+			    $json[] = array(
+			        		
+			        		'contenido' => $row['contenido']			        		
+			        		
+			        		       
+			      );
+			}
+			
+			echo json_encode($json);
+			
+			
+		break;	
 	
 	default:
 		
