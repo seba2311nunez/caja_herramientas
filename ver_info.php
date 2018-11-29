@@ -24,26 +24,28 @@ include ('conexion.php');
 		</div>
 		<script>
 			$(function(){
+				
+				$.getJSON('ajax.php',
+			   				{ parametro: "mostrar_un_contenido", id_contenido: $('#id_contenido').val() },						       				
+			   				function(data){ 
+			   					
+			   					//console.log(data[0]['contenido'])
+			   					$('#contenido').html(data[0]['contenido']);
+			   					//CKEDITOR.instances['contenido'].setData("hola");
+			   					//CKEDITOR.replace($('#contenido'));
+			   					
+			   					/*$('textarea').each(function(){
+				
+									CKEDITOR.replace(this);						
+								});*/			
+			   					
+			   				}//fin function data
+			   	
+			   	);//fin getjson
 									
 				setTimeout(function(){ 
 					
-					$.getJSON('ajax.php',
-				   				{ parametro: "mostrar_un_contenido", id_contenido: $('#id_contenido').val() },						       				
-				   				function(data){ 
-				   					
-				   					//console.log(data[0]['contenido'])
-				   					$('#contenido').html(data[0]['contenido']);
-				   					//CKEDITOR.instances['contenido'].setData("hola");
-				   					//CKEDITOR.replace($('#contenido'));
-				   					
-				   					/*$('textarea').each(function(){
 					
-										CKEDITOR.replace(this);						
-									});*/			
-				   					
-				   				}//fin function data
-				   	
-				   	);//fin getjson
 				   	
 				}, 1000);				
 				
