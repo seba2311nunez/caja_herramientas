@@ -53,13 +53,12 @@ header('Access-Control-Allow-Origin: *');
         </style>
     </head>
     <BODY>    	
-        <div class="container-fluid main">   
-		    
+        <div class="container-fluid main"> 
 	    	<div class="row col-md-12 col-lg-12">
 	    		<div class="col-md-12 col-lg-12">
 	    			<div class="x_panel">
 	    				<div class="jumbotron">
-	    					<h1>Caja de herramientas</h1>
+	    					<h3>Caja de herramientas</h3> 
 	    				</div>
 	    				<div>
 	    					<!--<div class="col-md-4 col-md-offset-3">
@@ -101,15 +100,13 @@ header('Access-Control-Allow-Origin: *');
 	    		
           	</div>          	    	
     	</div>
-    	
+    	<br>
     	
     	<!-- jQuery -->
 	    <!-- <script src="http://54.225.110.0/dashboard_sistema/vendors/jquery/dist/jquery.min.js"></script> -->
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>    	
     	<script>    	
     		$(function(){
-				
-				
 				
     			$('[data-toggle="tooltip"]').tooltip(); 
     			
