@@ -32,6 +32,9 @@ header('Access-Control-Allow-Origin: *');
 	    <script src="http://54.225.110.0/dashboard_sistema/vendors/morris.js/morris.min.js"></script>
 	  	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.min.css">
 	  	
+	  	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+	  	<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+	  	
 	  	<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css" />		
 		<link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
 		
@@ -232,7 +235,7 @@ header('Access-Control-Allow-Origin: *');
 			   					}//fin for
 			   					
 			   					$('#tabHerramientas').DataTable({
-							   		"searching": false,
+							   		"searching": true,
 							   		"bPaginate": false,
 								    "bLengthChange": false,
 								    "bFilter": true,
